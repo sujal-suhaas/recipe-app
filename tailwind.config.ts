@@ -18,6 +18,10 @@ const config = {
       },
     },
     extend: {
+      fontFamily: {
+        sans: ["var(--font-inter)"],
+        sofia: ["var(--font-sofia)"],
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",

@@ -6,34 +6,31 @@ import React from "react";
 
 const NavBar = () => {
   const path = usePathname();
-  console.log(path);
 
   return (
     <header className="z-10 w-full">
-      <nav className="flex justify-between items-center max-container bg-orange-500">
-        <a href="">Logo</a>
+      <nav className="flex justify-between items-center h-16 bg-[#EE6C23]">
+        <a href="">Food Diary</a>
         <ul className="flex-1 flex justify-center items-center gap-16 max-lg:hidden">
           <li>
-            <a
-              href="/recipe"
+            <button
               className={cn(
                 "leading-normal text-lg",
                 path == "/recipe" ? "text-gray-300" : "text-white"
               )}
             >
               Search Recipes
-            </a>
+            </button>
           </li>
           <li>
-            <a
-              href="/meal-planner"
+            <button
               className={cn(
                 "leading-normal text-lg",
                 path == "/meal-planner" ? "text-gray-300" : "text-white"
               )}
             >
               Plan your Meals
-            </a>
+            </button>
           </li>
         </ul>
       </nav>

@@ -19,7 +19,7 @@ const config = {
     },
     extend: {
       fontFamily: {
-        sans: ["var(--font-inter)"],
+        sofiaPro: ["var(--font-sofia-pro)"],
         sofia: ["var(--font-sofia)"],
       },
       colors: {

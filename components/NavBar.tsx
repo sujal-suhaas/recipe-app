@@ -1,36 +1,57 @@
 "use client";
 
-import { cn } from "@/lib/utils";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import React from "react";
 
 const NavBar = () => {
   const path = usePathname();
+  const router = useRouter();
 
   return (
     <header className="z-10 w-full">
       <nav className="flex justify-between items-center h-16 bg-[#EE6C23]">
-        <a href="">Food Diary</a>
+        <a
+          href=""
+          className="absolute font-sofia tracking-wide text-white text-2xl pl-6"
+        >
+          Food Diary
+        </a>
         <ul className="flex-1 flex justify-center items-center gap-16 max-lg:hidden">
           <li>
-            <button
-              className={cn(
-                "leading-normal text-lg",
-                path == "/recipe" ? "text-gray-300" : "text-white"
-              )}
-            >
-              Search Recipes
-            </button>
+            {path === "/recipe" ? (
+              <button className="bg-white bg-opacity-15 w-36 h-8 rounded-[10px] cursor-default">
+                <span className="leading-normal text-sm tracking-wide text-white font-sofiaPro font-black">
+                  Search Recipes
+                </span>
+              </button>
+            ) : (
+              <button
+                className="w-36 h-8 rounded-[10px] decoration-white hover:underline active:bg-white active:bg-opacity-15"
+                onClick={() => router.push("/recipe")}
+              >
+                <p className="leading-normal text-sm tracking-wide text-white font-sofiaPro font-medium">
+                  Search Recipes
+                </p>
+              </button>
+            )}
           </li>
           <li>
-            <button
-              className={cn(
-                "leading-normal text-lg",
-                path == "/meal-planner" ? "text-gray-300" : "text-white"
-              )}
-            >
-              Plan your Meals
-            </button>
+            {path === "/meal-planner" ? (
+              <button className="bg-white bg-opacity-15 w-36 h-8 rounded-[10px] cursor-default">
+                <span className="leading-normal text-sm tracking-wide text-white font-sofiaPro font-black">
+                  Plan your meals
+                </span>
+              </button>
+            ) : (
+              <button
+                className="w-36 h-8 rounded-[10px] decoration-white hover:underline active:bg-white active:bg-opacity-15"
+                onClick={() => router.push("/meal-planner")}
+              >
+                <p className="leading-normal text-sm tracking-wide text-white font-sofiaPro font-medium">
+                  Plan your Meals
+                </p>
+              </button>
+            )}
           </li>
         </ul>
       </nav>

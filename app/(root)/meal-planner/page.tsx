@@ -2,7 +2,7 @@ import React from 'react'
 
 const MealPlannerApp = () => {
   return (
-    <div>MealPlanner</div>
+    <section className='bg-[#FFECE3]'>MealPlanner</section>
   )
 }
 

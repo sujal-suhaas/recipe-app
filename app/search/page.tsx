@@ -1,8 +1,9 @@
+import NavBar from '@/components/NavBar'
 import React from 'react'
 
 const Search = () => {
   return (
-    <div>Search</div>
+    <NavBar type="Search"/>
   )
 }
 

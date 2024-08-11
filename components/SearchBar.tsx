@@ -1,19 +1,21 @@
 import React, { useState } from "react";
-import Image from "next/image";
-import Link from "next/link";
 import { cn } from "@/lib/utils";
 
-const SearchBar = () => {
+interface SearchBarProps {
+  text: React.Dispatch<React.SetStateAction<string>>;
+}
+
+const SearchBar = ({ text }: SearchBarProps) => {
   const [value, setValue] = useState("");
 
   function handleChange(e: {
     preventDefault: () => void;
     target: { value: React.SetStateAction<string> };
   }) {
-    console.log(e.target.value);
     setValue(e.target.value);
+    text(value);
   }
-
+ 
   return (
     <div className="relative flex flex-row -translate-y-2">
       <button className="absolute place-items-center right-6 top-2/4 -translate-y-2/4 grid z-9">
@@ -27,11 +29,11 @@ const SearchBar = () => {
         </svg>
       </button>
       <input
+        type="text"
         className="font-sofiaPro text-xs font-light w-80 h-11 p-6 rounded-[14px]"
         placeholder="Search what you want to make"
-        type="text"
+        value={value}
         onChange={handleChange}
-        onClick={() => setValue("")}
       />
     </div>
   );

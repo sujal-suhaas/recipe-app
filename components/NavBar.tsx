@@ -3,6 +3,7 @@
 import { usePathname, useRouter } from "next/navigation";
 import React from "react";
 import SearchBar from "./SearchBar";
+import Link from "next/link";
 
 type NavBarProps = {
   type: "Home" | "Search";
@@ -16,12 +17,12 @@ const NavBar = ({ type }: NavBarProps) => {
   return (
     <header className="absolute z-10 w-full">
       <nav className="relative flex justify-between items-center h-16 bg-[#EE6C23]">
-        <a
+        <Link
           href="/"
-          className="absolute font-sofia tracking-wide text-white text-2xl pl-6"
+          className="absolute font-sofia tracking-wide text-white text-2xl ml-6"
         >
           Food Diary
-        </a>
+        </Link>
         {type === "Home" ? (
           <ul className="flex-1 flex justify-center items-center gap-16 max-lg:hidden">
             <li>
@@ -68,9 +69,22 @@ const NavBar = ({ type }: NavBarProps) => {
             <SearchBar changeText={() => {}} />
           </div>
         ) : null}
-        <div className="absolute right-0">
-          <button className="mr-6 rounded-full hover:bg-white hover:bg-opacity-15">
-            user
+        <div className="absolute right-0 flex justify-evenly gap-6 mr-6">
+          <button
+            className="h-8 rounded-[10px] decoration-white hover:underline"
+            onClick={() => router.push("/sign-in")}
+          >
+            <p className="leading-normal text-sm tracking-wide text-white font-normal font-sofiaPro">
+              Login
+            </p>
+          </button>
+          <button
+            className="flex justify-center items-center bg-white bg-opacity-15 w-24 h-8 rounded-[10px] hover:underline decoration-white active:bg-white active:bg-opacity-50"
+            onClick={() => router.push("/sign-up")}
+          >
+            <span className="leading-normal text-sm tracking-wide text-white font-sofiaPro font-normal">
+              Sign Up
+            </span>
           </button>
         </div>
       </nav>

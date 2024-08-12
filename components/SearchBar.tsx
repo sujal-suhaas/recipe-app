@@ -1,11 +1,10 @@
 "use client";
 
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 import { useRouter, useSearchParams } from "next/navigation";
 
 interface SerarchBarProps {
-  value?: string;
   changeText: (value: string) => void;
 }
 
@@ -14,7 +13,7 @@ const SearchBar = ({ changeText }: SerarchBarProps) => {
   const [value, setValue] = useState("");
   const searchParams = useSearchParams();
 
-  useCallback(() => {
+  useEffect(() => {
     setValue(searchParams.get("query") || "");
   }, [searchParams]);
 
@@ -32,13 +31,18 @@ const SearchBar = ({ changeText }: SerarchBarProps) => {
   }, [value]);
 
   return (
-    <div className="relative flex flex-row -translate-y-2">
+    <div className="relative flex flex-row">
       <input
         type="text"
         className="font-sofiaPro text-xs font-light w-80 h-11 p-5 rounded-[14px]"
-        value = {value}
+        value={value}
         placeholder="Search what you want to make"
         onChange={handleChange}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            handleSearch();
+          }
+        }}
       />
       <button
         className="absolute place-items-center right-5 top-2/4 -translate-y-2/4 grid z-9"

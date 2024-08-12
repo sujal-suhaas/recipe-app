@@ -9,7 +9,7 @@ type NavBarProps = {
   searchQuery?: string;
 };
 
-const NavBar = ({ type, searchQuery }: NavBarProps) => {
+const NavBar = ({ type }: NavBarProps) => {
   const path = usePathname();
   const router = useRouter();
 
@@ -17,7 +17,7 @@ const NavBar = ({ type, searchQuery }: NavBarProps) => {
     <header className="absolute z-10 w-full">
       <nav className="relative flex justify-between items-center h-16 bg-[#EE6C23]">
         <a
-          href=""
+          href="/"
           className="absolute font-sofia tracking-wide text-white text-2xl pl-6"
         >
           Food Diary
@@ -65,7 +65,7 @@ const NavBar = ({ type, searchQuery }: NavBarProps) => {
 
         {type === "Search" ? (
           <div className="flex-1 flex justify-center items-center max-lg:hidden">
-            <SearchBar value={searchQuery} changeText={() => {}} />
+            <SearchBar changeText={() => {}} />
           </div>
         ) : null}
         <div className="absolute right-0">

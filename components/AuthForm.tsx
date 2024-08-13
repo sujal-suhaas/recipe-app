@@ -10,12 +10,15 @@ import { useState } from "react";
 import CustomInput from "./CustomInput";
 import { Loader2 } from "lucide-react";
 import Link from "next/link";
+import { signIn, signUp } from "@/lib/appwrite";
+import { useRouter } from "next/navigation";
 
 interface AuthFormProps {
   type: "sign-in" | "sign-up";
 }
 
 const AuthForm = ({ type }: AuthFormProps) => {
+  const router = useRouter();
   const formSchema = authFormSchema(type);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -32,23 +35,17 @@ const AuthForm = ({ type }: AuthFormProps) => {
 
     try {
       if (type === "sign-up") {
-        const userData = {
-          firstName: data.firstName!,
-          lastName: data.lastName!,
-          dateOfBirth: data.dateOfBirth!,
-          email: data.email,
-          password: data.password,
-        };
-        //create sign-up
+        signUp(data.email, data.password, `${data.firstName} ${data.lastName}`);
       }
 
       if (type === "sign-in") {
-        //create sign-in
+        signIn(data.email, data.password);
       }
     } catch (error) {
       console.log(error);
     } finally {
       setIsLoading(false);
+      router.push("/");
     }
   };
 
@@ -57,28 +54,20 @@ const AuthForm = ({ type }: AuthFormProps) => {
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
           {type === "sign-up" && (
-            <>
-              <div className="flex gap-4">
-                <CustomInput
-                  control={form.control}
-                  name="firstName"
-                  label="First Name"
-                  placeholder="Enter your first name"
-                />
-                <CustomInput
-                  control={form.control}
-                  name="lastName"
-                  label="Last Name"
-                  placeholder="Enter your last name"
-                />
-              </div>
+            <div className="flex gap-4">
               <CustomInput
                 control={form.control}
-                name="dateOfBirth"
-                label="Date of Birth"
-                placeholder="DD-MM-YYYY"
+                name="firstName"
+                label="First Name"
+                placeholder="Enter your first name"
               />
-            </>
+              <CustomInput
+                control={form.control}
+                name="lastName"
+                label="Last Name"
+                placeholder="Enter your last name"
+              />
+            </div>
           )}
           <CustomInput
             control={form.control}
@@ -93,10 +82,14 @@ const AuthForm = ({ type }: AuthFormProps) => {
             placeholder="Enter your password"
           />
           <div className="flex flex-col gap-4 pt-2">
-            <Button type="submit" disabled={isLoading} className="form-btn font-sofiaPro bg-[#EE6C23] hover:bg-[#FF6108]">
+            <Button
+              type="submit"
+              disabled={isLoading}
+              className="form-btn font-sofiaPro bg-[#EE6C23] hover:bg-[#FF6108]"
+            >
               {isLoading ? (
                 <>
-                  <Loader2 size={20} className="animate-spin font-sofiaPro" />
+                  <Loader2 size={20} className="animate-spin" />
                   &nbsp; Loading...
                 </>
               ) : type === "sign-in" ? (
@@ -111,7 +104,7 @@ const AuthForm = ({ type }: AuthFormProps) => {
       <footer className="flex justify-center gap-1 pt-4">
         <p className="text-14 text-gray-600 font-sofiaPro text-sm">
           {type === "sign-in"
-            ? "Dont have an account?"
+            ? "Don't have an account?"
             : "Already have an account?"}
         </p>
         <Link

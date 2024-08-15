@@ -35,11 +35,16 @@ const AuthForm = ({ type }: AuthFormProps) => {
 
     try {
       if (type === "sign-up") {
-        signUp(data.email, data.password, `${data.firstName} ${data.lastName}`);
+        await signUp(
+          data.email,
+          data.password,
+          data.firstName || "",
+          data.lastName || ""
+        );
       }
 
       if (type === "sign-in") {
-        signIn(data.email, data.password);
+        await signIn(data.email, data.password);
       }
     } catch (error) {
       console.log(error);

@@ -1,7 +1,6 @@
 "use client";
 
 import { usePathname, useRouter } from "next/navigation";
-import React from "react";
 import SearchBar from "./SearchBar";
 import Link from "next/link";
 
@@ -93,3 +92,6 @@ const NavBar = ({ type }: NavBarProps) => {
 };
 
 export default NavBar;
+function useState(arg0: Promise<unknown>): [any, any] {
+  throw new Error("Function not implemented.");
+}

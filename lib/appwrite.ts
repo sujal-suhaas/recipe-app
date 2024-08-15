@@ -70,27 +70,26 @@ export const getLoggedInUser = async () => {
     const { account } = await createSessionClient();
     const result = await account.get();
     const user = await getUserInfo({ userId: result.$id });
-    return user;
+    return parseStringify(user);
   } catch (error) {
-    console.log(error);
+    return null;
   }
 };
 
 export const signIn = async (email: string, password: string) => {
-  try {
     const { account } = await createAdminClient();
     const session = await account.createEmailPasswordSession(email, password);
+
     cookies().set("appwrite-session", session.secret, {
       path: "/",
       httpOnly: true,
       sameSite: "strict",
       secure: true,
     });
+
     const user = await getUserInfo({ userId: session.userId });
-    return user;
-  } catch (error) {
-    console.log(error);
-  }
+
+    return parseStringify(user);
 };
 
 export const signUp = async (
@@ -99,7 +98,6 @@ export const signUp = async (
   firstName: string,
   lastName: string
 ) => {
-  try {
     const { account, database } = await createAdminClient();
     const createNewUser = await account.create(
       ID.unique(),
@@ -129,18 +127,10 @@ export const signUp = async (
       sameSite: "strict",
       secure: true,
     });
-    return parseStringify(newUser);
-  } catch (error) {
-    console.log(error);
-  }
 };
 
 export const logout = async () => {
-  try {
     const { account } = await createSessionClient();
     cookies().delete("appwrite-session");
     await account.deleteSession("current");
-  } catch (error) {
-    console.log(error);
-  }
 };

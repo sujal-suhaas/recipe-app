@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Sofia } from "next/font/google";
 import localFont from "@next/font/local";
 import "./globals.css";
+import { Toaster } from "@/components/ui/toaster";
 
 const sofiaPro = localFont({
   src: [
@@ -101,6 +102,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${sofiaPro.variable} ${sofia.className} bg-background`}>
         {children}
+        <Toaster />
       </body>
     </html>
   );

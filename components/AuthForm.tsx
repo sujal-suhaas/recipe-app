@@ -12,12 +12,14 @@ import { Loader2 } from "lucide-react";
 import Link from "next/link";
 import { signIn, signUp } from "@/lib/appwrite";
 import { useRouter } from "next/navigation";
+import { useToast } from "./ui/use-toast";
 
 interface AuthFormProps {
   type: "sign-in" | "sign-up";
 }
 
 const AuthForm = ({ type }: AuthFormProps) => {
+  const { toast } = useToast();
   const router = useRouter();
   const formSchema = authFormSchema(type);
   const [isLoading, setIsLoading] = useState(false);
@@ -41,19 +43,37 @@ const AuthForm = ({ type }: AuthFormProps) => {
           data.firstName || "",
           data.lastName || ""
         );
+
+        toast({ title: "Success", description: "Account has been created" });
       }
 
       if (type === "sign-in") {
         await signIn(data.email, data.password);
+
+        toast({ title: "Success", description: "You have logged in" });
       }
+
+      router.push("/");
     } catch (error) {
-      console.log(error);
+      if (error instanceof Error) {
+        console.log(error.message);
+        toast({
+          title: "Error",
+          description: error.message,
+          variant: "destructive",
+        });
+      } else {
+        toast({
+          title: "Error",
+          description: "Something went wrong. Please try again.",
+          variant: "destructive",
+        });
+      }
     } finally {
       setIsLoading(false);
-      router.push("/");
     }
   };
-
+2
   return (
     <section className="flex flex-col">
       <Form {...form}>

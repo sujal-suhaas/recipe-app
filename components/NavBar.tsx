@@ -81,8 +81,8 @@ const NavBar = ({ type }: NavBarProps) => {
 
         {user && (
           <Link
-            href={`/user/${user.userId}`}
-            className="right-0 mr-6 rounded-full p-1 hover:bg-white hover:bg-opacity-15 active:bg-opacity-50"
+            href={`/user?id=${user.userId}`}
+            className="absolute right-0 mr-6 rounded-full p-1 hover:bg-white hover:bg-opacity-15 active:bg-opacity-50"
           >
             <Image src={UserPng} alt="user" width={25} height={25} />
           </Link>

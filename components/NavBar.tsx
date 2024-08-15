@@ -3,6 +3,11 @@
 import { usePathname, useRouter } from "next/navigation";
 import SearchBar from "./SearchBar";
 import Link from "next/link";
+import { getLoggedInUser } from "@/lib/appwrite";
+import { useEffect, useState } from "react";
+import Image from "next/image";
+import UserPng from "@/public/images/User.png";
+import { UserProps } from "@/lib/utils";
 
 type NavBarProps = {
   type: "Home" | "Search";
@@ -12,6 +17,11 @@ type NavBarProps = {
 const NavBar = ({ type }: NavBarProps) => {
   const path = usePathname();
   const router = useRouter();
+  const [user, setUser] = useState<UserProps>();
+
+  useEffect(() => {
+    getLoggedInUser().then((user) => setUser(user));
+  }, []);
 
   return (
     <header className="absolute z-10 w-full">
@@ -68,30 +78,38 @@ const NavBar = ({ type }: NavBarProps) => {
             <SearchBar changeText={() => {}} />
           </div>
         ) : null}
-        <div className="absolute right-0 flex justify-evenly gap-6 mr-6">
-          <button
-            className="h-8 rounded-[10px] decoration-white hover:underline"
-            onClick={() => router.push("/sign-in")}
+
+        {user && (
+          <Link
+            href={`/user/${user.userId}`}
+            className="right-0 mr-6 rounded-full p-1 hover:bg-white hover:bg-opacity-15 active:bg-opacity-50"
           >
-            <p className="leading-normal text-sm tracking-wide text-white font-normal font-sofiaPro">
-              Login
-            </p>
-          </button>
-          <button
-            className="flex justify-center items-center bg-white bg-opacity-15 w-24 h-8 rounded-[10px] hover:underline decoration-white active:bg-white active:bg-opacity-50"
-            onClick={() => router.push("/sign-up")}
-          >
-            <span className="leading-normal text-sm tracking-wide text-white font-sofiaPro font-normal">
-              Sign Up
-            </span>
-          </button>
-        </div>
+            <Image src={UserPng} alt="user" width={25} height={25} />
+          </Link>
+        )}
+        {!user && (
+          <div className="absolute right-0 flex justify-evenly gap-6 mr-6">
+            <button
+              className="h-8 rounded-[10px] decoration-white hover:underline"
+              onClick={() => router.push("/sign-in")}
+            >
+              <p className="leading-normal text-sm tracking-wide text-white font-normal font-sofiaPro">
+                Login
+              </p>
+            </button>
+            <button
+              className="flex justify-center items-center bg-white bg-opacity-15 w-24 h-8 rounded-[10px] hover:underline decoration-white active:bg-white active:bg-opacity-50"
+              onClick={() => router.push("/sign-up")}
+            >
+              <span className="leading-normal text-sm tracking-wide text-white font-sofiaPro font-normal">
+                Sign Up
+              </span>
+            </button>
+          </div>
+        )}
       </nav>
     </header>
   );
 };
 
 export default NavBar;
-function useState(arg0: Promise<unknown>): [any, any] {
-  throw new Error("Function not implemented.");
-}

@@ -1,27 +1,60 @@
 "use server";
 
-import { Client, Account, ID, Databases, Query } from "appwrite";
+import { Client, Account, ID, Databases, Query, Users } from "node-appwrite";
 import { cookies } from "next/headers";
 
 const {
   NEXT_PUBLIC_APPWRITE_URL: APPWRITE_URL,
   NEXT_PUBLIC_APPWRITE_PROJECT_ID: PROJECT_ID,
+  NEXT_PUBLIC_APPWRITE_API_KEY: API_KEY,
   NEXT_PUBLIC_APPWRITE_DATABASE_ID: DATABASE_ID,
   NEXT_PUBLIC_APPWRITE_COLLECTION_ID: COLLECTION_ID,
 } = process.env;
 
-const client = new Client();
+export async function createSessionClient() {
+  const client = new Client()
+    .setEndpoint(APPWRITE_URL!)
+    .setProject(PROJECT_ID!);
 
-client.setEndpoint(APPWRITE_URL!).setProject(PROJECT_ID!);
+  const session = cookies().get("appwrite-session");
 
-const account = new Account(client);
+  if (!session || !session.value) {
+    throw new Error("No session");
+  }
 
-const database = new Databases(client);
+  client.setSession(session.value);
+
+  return {
+    get account() {
+      return new Account(client);
+    },
+  };
+}
+
+export async function createAdminClient() {
+  const client = new Client()
+    .setEndpoint(APPWRITE_URL!)
+    .setProject(PROJECT_ID!)
+    .setKey(API_KEY!);
+
+  return {
+    get account() {
+      return new Account(client);
+    },
+    get database() {
+      return new Databases(client);
+    },
+    get users() {
+      return new Users(client);
+    },
+  };
+}
 
 const parseStringify = (value: any) => JSON.parse(JSON.stringify(value));
 
 export const getUserInfo = async ({ userId }: { userId: string }) => {
   try {
+    const { database } = await createAdminClient();
     const user = await database.listDocuments(DATABASE_ID!, COLLECTION_ID!, [
       Query.equal("userId", [userId]),
     ]);
@@ -34,6 +67,7 @@ export const getUserInfo = async ({ userId }: { userId: string }) => {
 
 export const getLoggedInUser = async () => {
   try {
+    const { account } = await createSessionClient();
     const result = await account.get();
     const user = await getUserInfo({ userId: result.$id });
     return user;
@@ -44,6 +78,7 @@ export const getLoggedInUser = async () => {
 
 export const signIn = async (email: string, password: string) => {
   try {
+    const { account } = await createAdminClient();
     const session = await account.createEmailPasswordSession(email, password);
     cookies().set("appwrite-session", session.secret, {
       path: "/",
@@ -65,6 +100,7 @@ export const signUp = async (
   lastName: string
 ) => {
   try {
+    const { account, database } = await createAdminClient();
     const createNewUser = await account.create(
       ID.unique(),
       email,
@@ -101,6 +137,7 @@ export const signUp = async (
 
 export const logout = async () => {
   try {
+    const { account } = await createSessionClient();
     cookies().delete("appwrite-session");
     await account.deleteSession("current");
   } catch (error) {

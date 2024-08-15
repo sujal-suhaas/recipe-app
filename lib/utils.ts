@@ -15,3 +15,11 @@ export const authFormSchema = (type: string) =>
     email: z.string().email(),
     password: z.string().min(8),
   });
+
+export type UserProps = {
+  userId: string,
+  email: string,
+  firstName: string,
+  lastName: string,
+  likedRecipes: [],
+}

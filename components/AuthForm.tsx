@@ -73,7 +73,7 @@ const AuthForm = ({ type }: AuthFormProps) => {
       setIsLoading(false);
     }
   };
-2
+  
   return (
     <section className="flex flex-col">
       <Form {...form}>

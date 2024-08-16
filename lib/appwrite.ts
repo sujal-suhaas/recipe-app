@@ -115,7 +115,6 @@ export const signUp = async (
         email: email,
         firstName: firstName,
         lastName: lastName,
-        likedRecipes: [],
       }
     );
 

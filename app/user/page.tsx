@@ -15,7 +15,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
+} from "@/components/ui/dialog";
 
 const User = () => {
   const [user, setUser] = useState<UserProps>();
@@ -36,6 +36,7 @@ const User = () => {
   const searchParams = useSearchParams();
 
   const handleLogOut = async () => {
+    setIsAlertVisible(true);
     try {
       await logout();
       router.push("/sign-in");
@@ -56,18 +57,68 @@ const User = () => {
   };
 
   return (
-    <div className="flex justify-center items-center w-full h-screen">
+    <div className="flex flex-col justify-center items-center w-full h-screen">
+      <div className="w-[80%]">
+        <button className="text-3xl" onClick={() => router.back()}>{"<"} </button>
+      </div>
       {user?.userId === searchParams.get("id") ? (
-        <div className="flex flex-col">
-          <div className="font-sofiaPro">
-            {user.firstName} {user.lastName}
+        <div className="flex flex-col w-[40%] m-20 gap-10">
+          <div className="flex items-center justify-center">
+            <div className="profile-img w-32 h-32 flex justify-center items-center p-7 rounded-full bg-[#EE6C23]">
+              <span className="text-5xl font-bold text-white">
+                {user.firstName[0]}
+              </span>
+            </div>
           </div>
-          <Button className="font-sofiaPro bg-red-500 hover:bg-red-700" onClick={handleLogOut}>Logout</Button>
+          <div className="font-sofiaPro">
+            Name: {user.firstName} {user.lastName}
+          </div>
+          <div className="font-sofiaPro">Email: {user.email}</div>
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button className="font-sofiaPro bg-red-500 hover:bg-red-700">
+                Logout
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-md">
+              <DialogHeader>
+                <DialogTitle className="font-sofiaPro">
+                  Are you sure?
+                </DialogTitle>
+                <DialogDescription className="font-sofiaPro">
+                  You want to logout
+                </DialogDescription>
+              </DialogHeader>
+
+              <DialogFooter className="sm:justify-start gap-2">
+                <DialogClose asChild>
+                  <Button
+                    type="button"
+                    className="bg-red-500 hover:bg-red-700 font-sofiaPro"
+                    onClick={handleLogOut}
+                  >
+                    Logout
+                  </Button>
+                </DialogClose>
+                <DialogClose asChild>
+                  <Button
+                    type="button"
+                    variant="secondary"
+                    className="font-sofiaPro"
+                  >
+                    Cancel
+                  </Button>
+                </DialogClose>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
         </div>
       ) : (
         <>
-          {!isAlertVisible && <div>Loading...</div>}
-          {isAlertVisible && <div>You are not logged in</div>}
+          {!isAlertVisible && <div className="font-sofiaPro">Loading...</div>}
+          {isAlertVisible && (
+            <div className="font-sofiaPro">You are not logged in</div>
+          )}
         </>
       )}
     </div>

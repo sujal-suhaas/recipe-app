@@ -17,7 +17,7 @@ const Search = () => {
       <NavBar type="Search" />
       <section className="pt-20 w-[60%] h-screen max-lg:hidden bg-slate-50">
         <div>
-          <p className="font-sofiaPro font-normal">Recipes related to {value.toUpperCase()}</p>
+          <p className="font-sofiaPro font-normal">Recipes related to "{value}"</p>
         </div>
       </section>
     </main>

@@ -58,8 +58,39 @@ export const getUserInfo = async ({ userId }: { userId: string }) => {
     const user = await database.listDocuments(DATABASE_ID!, COLLECTION_ID!, [
       Query.equal("userId", [userId]),
     ]);
-
     return parseStringify(user.documents[0]);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const updateUserInfo = async ({
+  documentId,
+  firstName,
+  lastName,
+  likedRecipes,
+  viewedRecipes,
+}: {
+  documentId?: string
+  firstName?: string;
+  lastName?: string;
+  likedRecipes?: string[];
+  viewedRecipes?: string[];
+}) => {
+  try {
+    const { database } = await createAdminClient();
+    const user = await database.updateDocument(
+      DATABASE_ID!,
+      COLLECTION_ID!,
+      documentId!,
+      {
+        firstName,
+        lastName,
+        likedRecipes,
+        viewedRecipes,
+      }
+    );
+    return parseStringify(user);
   } catch (error) {
     console.log(error);
   }
@@ -77,19 +108,19 @@ export const getLoggedInUser = async () => {
 };
 
 export const signIn = async (email: string, password: string) => {
-    const { account } = await createAdminClient();
-    const session = await account.createEmailPasswordSession(email, password);
+  const { account } = await createAdminClient();
+  const session = await account.createEmailPasswordSession(email, password);
 
-    cookies().set("appwrite-session", session.secret, {
-      path: "/",
-      httpOnly: true,
-      sameSite: "strict",
-      secure: true,
-    });
+  cookies().set("appwrite-session", session.secret, {
+    path: "/",
+    httpOnly: true,
+    sameSite: "strict",
+    secure: true,
+  });
 
-    const user = await getUserInfo({ userId: session.userId });
+  const user = await getUserInfo({ userId: session.userId });
 
-    return parseStringify(user);
+  return parseStringify(user);
 };
 
 export const signUp = async (
@@ -98,38 +129,38 @@ export const signUp = async (
   firstName: string,
   lastName: string
 ) => {
-    const { account, database } = await createAdminClient();
-    const createNewUser = await account.create(
-      ID.unique(),
-      email,
-      password,
-      [firstName, lastName].join(" ")
-    );
+  const { account, database } = await createAdminClient();
+  const createNewUser = await account.create(
+    ID.unique(),
+    email,
+    password,
+    [firstName, lastName].join(" ")
+  );
 
-    const newUser = await database.createDocument(
-      DATABASE_ID!,
-      COLLECTION_ID!,
-      ID.unique(),
-      {
-        userId: createNewUser.$id,
-        email: email,
-        firstName: firstName,
-        lastName: lastName,
-      }
-    );
+  const newUser = await database.createDocument(
+    DATABASE_ID!,
+    COLLECTION_ID!,
+    ID.unique(),
+    {
+      userId: createNewUser.$id,
+      email: email,
+      firstName: firstName,
+      lastName: lastName,
+    }
+  );
 
-    const session = await account.createEmailPasswordSession(email, password);
+  const session = await account.createEmailPasswordSession(email, password);
 
-    cookies().set("appwrite-session", session.secret, {
-      path: "/",
-      httpOnly: true,
-      sameSite: "strict",
-      secure: true,
-    });
+  cookies().set("appwrite-session", session.secret, {
+    path: "/",
+    httpOnly: true,
+    sameSite: "strict",
+    secure: true,
+  });
 };
 
 export const logout = async () => {
-    const { account } = await createSessionClient();
-    cookies().delete("appwrite-session");
-    await account.deleteSession("current");
+  const { account } = await createSessionClient();
+  cookies().delete("appwrite-session");
+  await account.deleteSession("current");
 };

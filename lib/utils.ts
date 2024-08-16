@@ -22,4 +22,8 @@ export type UserProps = {
   firstName: string,
   lastName: string,
   likedRecipes: [],
+  viewedRecipes: [],
+  $id: string
+  $databaseId: string
+  $collectionId: string
 }

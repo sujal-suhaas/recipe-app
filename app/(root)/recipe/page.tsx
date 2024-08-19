@@ -1,8 +1,8 @@
 "use client";
 
 import HeroSearchBar from "@/components/HeroSearchBar";
-import { getLoggedInUser, updateUserInfo } from "@/lib/appwrite";
-import { getCookie } from "@/lib/cookies";
+import { getLoggedInUser } from "@/lib/appwrite";
+import { getCookie, hasCookie } from "@/lib/cookies";
 import { UserProps } from "@/lib/utils";
 import { useEffect, useState } from "react";
 
@@ -18,18 +18,22 @@ const RecipeApp = () => {
   }, []);
 
   useEffect(() => {
-    setLikedRecipes(user!.likedRecipes);
-    setViewedRecipes(user!.viewedRecipes);
-  }, []);
+    if (!user && hasCookie("likedRecipes")) {
+      getCookie("likedRecipes").then((recipes) => {
+        if (recipes) {
+          setLikedRecipes(JSON.parse(recipes!.value));
+        }
+      });
+    }
 
-  if (!user) {
-    getCookie("likedRecipes").then((likedRecipes) => {
-      setLikedRecipes(likedRecipes);
-    });
-    getCookie("viewedRecipes").then((viewedRecipes) => {
-      setViewedRecipes(viewedRecipes);
-    })
-  }
+    if (!user && hasCookie("viewedRecipes")) {
+      getCookie("viewedRecipes").then((recipes) => {
+        if (recipes) {
+          setViewedRecipes(JSON.parse(recipes!.value));
+        }
+      });
+    }
+  }, [user]);
 
   return (
     <section className="w-full h-screen flex justify-center items-center bg-[#FFECE3] bg-opacity-75">

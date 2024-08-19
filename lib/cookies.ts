@@ -1,18 +1,24 @@
+"use server";
+
 import { cookies } from "next/headers";
 
-export async function setCookie(key: string, value: string) {
-    cookies().set(key, value, {
-        path: "/",
-        httpOnly: true,
-        sameSite: "strict",
-        secure: true,
-    });
-}
+export const setCookie = async (key: string, value: string[]) => {
+  cookies().set(key, JSON.stringify(value), {
+    path: "/",
+    httpOnly: true,
+    sameSite: "strict",
+    secure: true,
+  });
+};
 
-export async function getCookie(key: string) {
-    return cookies().get(key)?.value;
-}
+export const getCookie = async (key: string) => {
+  return cookies().get(key);
+};
 
-export async function deleteCookie(key: string) {
-    cookies().delete(key);
-}
+export const deleteCookie = async (key: string) => {
+  cookies().delete(key);
+};
+
+export const hasCookie = (key: string) => {
+  return cookies().has(key);
+};

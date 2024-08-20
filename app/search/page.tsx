@@ -43,17 +43,20 @@ const Search = () => {
   }, [searchParams]); */
 
   return (
-    <main className="w-full h-screen flex justify-center">
+    <main className="w-full h-screen flex justify-center bg-[#FFECE3]">
       <NavBar type="Search" />
-      <section className="flex flex-col gap-12 pt-20 w-[60%] h-screen">
+      <section className="flex flex-col gap-10 pt-20 w-[60%] h-screen">
         <div>
           <p className="font-sofiaPro font-normal">
             Recipes related to "<span className="font-bold">{query}</span>"
           </p>
         </div>
-        <div className="grid grid-cols-3 max-lg:grid-cols-1 justify-between p-2 hover:bg-white">
+        <div className="grid grid-cols-3 max-lg:grid-cols-1 justify-between">
           {recipes?.results.map((recipe: any) => (
-            <div key={recipe.id} className="w-[235px] h-[317px]">
+            <div
+              key={recipe.id}
+              className="flex flex-col justify-center items-center w-[235px] p-2 hover:bg-white hover:shadow-md rounded-xl cursor-pointer gap-2 hover:underline active:shadow-none"
+            >
               <Image
                 className="rounded-xl"
                 src={recipe.image}
@@ -61,9 +64,11 @@ const Search = () => {
                 height={312}
                 alt={recipe.id}
               />
-              <p className="font-sofiaPro font-normal truncate text-sm">
-                {recipe.title}
-              </p>
+              <div className="w-full">
+                <p className="font-sofiaPro font-normal truncate text-sm">
+                  {recipe.title}
+                </p>
+              </div>
             </div>
           ))}
         </div>

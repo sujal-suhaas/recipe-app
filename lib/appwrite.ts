@@ -147,7 +147,7 @@ export const signUp = async (
       firstName: firstName,
       lastName: lastName,
       likedRecipes: [],
-      viewedRecipes: [],
+      
     }
   );
 
@@ -160,3 +160,28 @@ export const signUp = async (
     secure: true,
   });
 };
+
+export const logout = async () => {
+  const { account } = await createSessionClient();
+  cookies().delete("appwrite-session");
+  await account.deleteSession("current");
+};
+
+export const saveLikedRecipes = async ({
+  documentId,
+  likedRecipes,
+}: {
+  documentId?: string
+  likedRecipes?: string[]
+}) => {
+  const { database } = await createAdminClient();
+  const user = await database.updateDocument(
+    DATABASE_ID!,
+    COLLECTION_ID!,
+    documentId!,
+    {
+      likedRecipes,
+    }
+  );
+  return parseStringify(user);
+}

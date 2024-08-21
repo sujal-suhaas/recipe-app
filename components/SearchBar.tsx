@@ -15,7 +15,7 @@ const SearchBar = ({ changeText }: SerarchBarProps) => {
 
   useEffect(() => {
     setValue(searchParams.get("query") || "");
-  }, []);
+  }, [searchParams]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
@@ -28,7 +28,7 @@ const SearchBar = ({ changeText }: SerarchBarProps) => {
 
   useEffect(() => {
     changeText(value);
-  }, [value]);
+  }, [value, changeText]);
 
   return (
     <div className="relative flex flex-row">

@@ -3,11 +3,8 @@
 import HeroSearchBar from "@/components/HeroSearchBar";
 import { getLoggedInUser } from "@/lib/appwrite";
 import { getCookie, hasCookie } from "@/lib/cookies";
-import { recipes } from "@/lib/data";
-import { getRecipe } from "@/lib/spoonacular";
 import { UserProps } from "@/lib/utils";
-import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 
 const RecipeApp = () => {
   const [user, setUser] = useState<UserProps>();
@@ -40,7 +37,9 @@ const RecipeApp = () => {
 
   return (
     <section className="w-full h-screen flex justify-center items-center bg-[#FFECE3] bg-opacity-75">
-      <HeroSearchBar />
+      <Suspense fallback={<div>Loading...</div>}>
+        <HeroSearchBar />
+      </Suspense>
     </section>
   );
 };

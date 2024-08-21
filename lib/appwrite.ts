@@ -146,6 +146,8 @@ export const signUp = async (
       email: email,
       firstName: firstName,
       lastName: lastName,
+      likedRecipes: [],
+      viewedRecipes: [],
     }
   );
 
@@ -157,10 +159,4 @@ export const signUp = async (
     sameSite: "strict",
     secure: true,
   });
-};
-
-export const logout = async () => {
-  const { account } = await createSessionClient();
-  cookies().delete("appwrite-session");
-  await account.deleteSession("current");
 };

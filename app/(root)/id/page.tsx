@@ -6,9 +6,17 @@ import { useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { Bookmark, Soup, Timer } from "lucide-react";
+import { getLoggedInUser, updateUserInfo } from "@/lib/appwrite";
+import { UserProps } from "@/lib/utils";
+import { getCookie, hasCookie, setCookie } from "@/lib/cookies";
 
 const Id = () => {
   const router = useRouter();
+  const [user, setUser] = useState<UserProps>();
+
+  const [likedRecipes, setLikedRecipes] = useState<string[]>([]);
+  const [viewedRecipes, setViewedRecipes] = useState<string[]>([]);
+
   const [recipeId, setRecipeId] = useState("");
   const searchParams = useSearchParams();
 
@@ -18,6 +26,9 @@ const Id = () => {
   const [savedText, setSavedText] = useState(false);
 
   useEffect(() => {
+    getLoggedInUser().then((user) => {
+      setUser(user);
+    });
     setRecipeId(searchParams.get("id") || "");
   }, []);
 
@@ -28,13 +39,51 @@ const Id = () => {
     setRecipeData(recipes);
   }, [recipeId]);
 
-  const handleSavedHoverIn = () => {
+  useEffect(() => {
+    if (!user && hasCookie("likedRecipes")) {
+      getCookie("likedRecipes").then((recipes) => {
+        if (recipes) {
+          setLikedRecipes(JSON.parse(recipes!.value));
+        }
+      });
+    } else if (!user && hasCookie("viewedRecipes")) {
+      getCookie("viewedRecipes").then((recipes) => {
+        if (recipes) {
+          setViewedRecipes(JSON.parse(recipes!.value));
+        }
+      });
+    } else {
+      if (user?.viewedRecipes) {
+        updateUserInfo({
+          documentId: user?.$id,
+          viewedRecipes: [...user?.viewedRecipes, String(recipeData.id)],
+        });
+      } else {
+        updateUserInfo({
+          documentId: user?.$id,
+          viewedRecipes: [String(recipeData.id)],
+        });
+      }
+
+      setViewedRecipes([...viewedRecipes, String(recipeData.id)]);
+      setLikedRecipes([...likedRecipes]);
+    }
+  }, [user]);
+
+  useEffect(() => {
+    if (!user) {
+      if (!viewedRecipes.includes(String(recipeData.id))) {
+        setCookie("viewedRecipes", [...viewedRecipes, String(recipeData.id)]);
+      }
+    } else {
+      setCookie("viewedRecipes", [String(recipeData.id)]);
+    }
+  }, [recipeData, viewedRecipes]);
+
+  const handleSavedHover = () => {
     if (!savedIcon) {
       setSavedIcon(true);
     }
-  };
-
-  const handleSavedHoverOut = () => {
     if (savedIcon) {
       setSavedIcon(false);
     }
@@ -42,7 +91,35 @@ const Id = () => {
 
   const saveRecipe = () => {
     if (!savedText) {
+      if (user) {
+        updateUserInfo({
+          documentId: user?.$id,
+          likedRecipes: [...likedRecipes, String(recipeData.id)],
+        });
+      }
+      if (!user) {
+        setCookie("likedRecipes", [...likedRecipes, String(recipeData.id)]);
+      }
       setSavedText(true);
+    }
+    if (savedText) {
+      if (user) {
+        updateUserInfo({
+          documentId: user?.$id,
+          likedRecipes: likedRecipes.filter((id) => {
+            return id !== String(recipeData.id);
+          }),
+        });
+      }
+      if (!user) {
+        setCookie(
+          "likedRecipes",
+          likedRecipes.filter((id) => {
+            return id !== String(recipeData.id);
+          })
+        );
+      }
+      setSavedText(false);
     }
   };
 
@@ -83,22 +160,27 @@ const Id = () => {
             &#x2022;
             <div
               className="flex flex-row gap-2 justify-center items-center hover:underline cursor-pointer"
-              onMouseEnter={handleSavedHoverIn}
-              onMouseLeave={handleSavedHoverOut}
+              onMouseEnter={handleSavedHover}
+              onMouseLeave={handleSavedHover}
             >
-              {savedIcon ? (
+              {savedText || savedIcon ? (
                 <Bookmark fill="#EE6C23" strokeWidth={0} className="w-4" />
               ) : (
                 <Bookmark className="w-4" />
               )}
               {savedText ? (
-                <p className="font-light text-sm font-sofiaPro">Unsave Recipe</p>
+                <p
+                  className="font-light text-sm font-sofiaPro"
+                  onClick={saveRecipe}
+                >
+                  Saved
+                </p>
               ) : (
                 <p
                   className="font-light text-sm font-sofiaPro"
                   onClick={saveRecipe}
                 >
-                  Save Recipe
+                  Save
                 </p>
               )}
             </div>

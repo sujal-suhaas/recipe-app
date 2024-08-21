@@ -2,11 +2,12 @@
 
 import NavBar from "@/components/NavBar";
 import { searchRecipes } from "@/lib/spoonacular";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 
 const Search = () => {
+  const router = useRouter();
   const searchParams = useSearchParams();
   const [query, setQuery] = useState("");
   const [recipes, setRecipes] = useState<any>({
@@ -43,7 +44,7 @@ const Search = () => {
   }, [searchParams]); */
 
   return (
-    <main className="w-full h-screen flex justify-center bg-[#FFECE3]">
+    <main className="w-full h-screen flex justify-center bg-[#FFECE3] bg-opacity-75">
       <NavBar type="Search" />
       <section className="flex flex-col gap-10 pt-20 w-[60%] h-screen">
         <div>
@@ -54,6 +55,7 @@ const Search = () => {
         <div className="grid grid-cols-3 max-lg:grid-cols-1 justify-between">
           {recipes?.results.map((recipe: any) => (
             <div
+              onClick={() => router.push(`/id?id=${recipe.id}`)}
               key={recipe.id}
               className="flex flex-col justify-center items-center w-[235px] p-2 hover:bg-white hover:shadow-md rounded-xl cursor-pointer gap-2 hover:underline active:shadow-none"
             >

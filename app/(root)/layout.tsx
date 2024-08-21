@@ -8,7 +8,7 @@ export default async function RootLayout({
   return (
     <main>
         <NavBar type="Home" />
-      <div className="bg-white">{children}</div>
+      <div className="relative bg-white">{children}</div>
     </main>
   );
 }

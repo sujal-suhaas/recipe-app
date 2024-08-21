@@ -53,32 +53,43 @@ const Id = () => {
         }
       });
     } else {
-      if (user?.viewedRecipes) {
-        updateUserInfo({
-          documentId: user?.$id,
-          viewedRecipes: [...user?.viewedRecipes, String(recipeData.id)],
-        });
+      if (user?.likedRecipes) {
+        setLikedRecipes(user?.likedRecipes);
+      } else if (user?.viewedRecipes) {
+        setViewedRecipes(user?.viewedRecipes);
       } else {
-        updateUserInfo({
-          documentId: user?.$id,
-          viewedRecipes: [String(recipeData.id)],
-        });
+        setLikedRecipes([]);
+        setViewedRecipes([]);
       }
-
-      setViewedRecipes([...viewedRecipes, String(recipeData.id)]);
-      setLikedRecipes([...likedRecipes]);
     }
   }, [user]);
 
   useEffect(() => {
+    if (user) {
+      if (!viewedRecipes.includes(String(recipeData.id))) {
+        updateUserInfo({
+          documentId: user?.$id,
+          viewedRecipes: [...viewedRecipes, String(recipeData.id)],
+        });
+      }
+    }
+
     if (!user) {
       if (!viewedRecipes.includes(String(recipeData.id))) {
         setCookie("viewedRecipes", [...viewedRecipes, String(recipeData.id)]);
       }
-    } else {
-      setCookie("viewedRecipes", [String(recipeData.id)]);
     }
-  }, [recipeData, viewedRecipes]);
+  }, [recipeData, viewedRecipes, user]);
+
+  useEffect(() => {
+    if (recipeData) {
+      if (likedRecipes.includes(String(recipeData.id))) {
+        setSavedText(true);
+      } else {
+        setSavedText(false);
+      }
+    }
+  }, [recipeData, likedRecipes]);
 
   const handleSavedHover = () => {
     if (!savedIcon) {
@@ -94,14 +105,18 @@ const Id = () => {
       if (user) {
         updateUserInfo({
           documentId: user?.$id,
-          likedRecipes: [...likedRecipes, String(recipeData.id)],
+          likedRecipes: [...likedRecipes, String(recipeId)],
         });
       }
       if (!user) {
-        setCookie("likedRecipes", [...likedRecipes, String(recipeData.id)]);
+        setCookie("likedRecipes", [...likedRecipes, String(recipeId)]);
       }
+
+      setLikedRecipes([...likedRecipes, String(recipeId)]);
+
       setSavedText(true);
     }
+
     if (savedText) {
       if (user) {
         updateUserInfo({
@@ -111,6 +126,7 @@ const Id = () => {
           }),
         });
       }
+
       if (!user) {
         setCookie(
           "likedRecipes",
@@ -119,6 +135,13 @@ const Id = () => {
           })
         );
       }
+
+      setLikedRecipes(
+        likedRecipes.filter((id) => {
+          return id !== String(recipeData.id);
+        })
+      );
+
       setSavedText(false);
     }
   };
@@ -166,6 +189,7 @@ const Id = () => {
                 className="flex flex-row gap-2 justify-center items-center hover:underline cursor-pointer"
                 onMouseEnter={handleSavedHover}
                 onMouseLeave={handleSavedHover}
+                onClick={saveRecipe}
               >
                 {savedText || savedIcon ? (
                   <Bookmark fill="#EE6C23" strokeWidth={0} className="w-4" />
@@ -173,19 +197,9 @@ const Id = () => {
                   <Bookmark className="w-4" />
                 )}
                 {savedText ? (
-                  <p
-                    className="font-light text-sm font-sofiaPro"
-                    onClick={saveRecipe}
-                  >
-                    Saved
-                  </p>
+                  <p className="font-light text-sm font-sofiaPro">Saved</p>
                 ) : (
-                  <p
-                    className="font-light text-sm font-sofiaPro"
-                    onClick={saveRecipe}
-                  >
-                    Save
-                  </p>
+                  <p className="font-light text-sm font-sofiaPro">Save</p>
                 )}
               </div>
             </div>
@@ -206,12 +220,16 @@ const Id = () => {
         </div>
         <div className="instructions">
           <p className="font-sofiaPro">Instructions -</p>
-          <p className="flex flex-row ml-8 font-sofiaPro font-light text-sm gap-2 items-center">
+          <p className="flex flex-row ml-8 font-sofiaPro font-light text-sm gap-2">
             Instructions are available on{" "}
-            <a className="peer text-[#EE6C23]" href="">
+            <a
+              className="peer text-[#EE6C23]"
+              href={recipeData.sourceUrl}
+              target="_blank"
+            >
               {recipeData.sourceName}
             </a>
-            <ExternalLink className="hidden peer-hover:block w-4" />
+            <ExternalLink className="hidden peer-hover:block w-3" />
           </p>
         </div>
       </div>

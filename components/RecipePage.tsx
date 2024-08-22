@@ -31,36 +31,51 @@ const RecipePage = () => {
   }, [searchParams]);
 
   useEffect(() => {
-    /* getRecipe(recipeId).then((data) => {
-          setRecipeData(data);
-      }); */
-    setRecipeData(recipes);
+    getRecipe(recipeId).then((data) => {
+      console.log(data);
+      setRecipeData(data);
+    });
   }, [recipeId]);
 
   useEffect(() => {
-    if (!user && hasCookie("likedRecipes")) {
-      getCookie("likedRecipes").then((recipes) => {
-        if (recipes) {
-          setLikedRecipes(JSON.parse(recipes!.value));
-        }
-      });
-    } else if (!user && hasCookie("viewedRecipes")) {
-      getCookie("viewedRecipes").then((recipes) => {
-        if (recipes) {
-          setViewedRecipes(JSON.parse(recipes!.value));
-        }
-      });
-    } else {
-      if (user?.likedRecipes) {
-        setLikedRecipes(user?.likedRecipes);
-      } else if (user?.viewedRecipes) {
-        setViewedRecipes(user?.viewedRecipes);
+    if (!user) {
+      if (hasCookie("likedRecipes")) {
+        getCookie("likedRecipes").then((recipes) => {
+          if (recipes) {
+            setLikedRecipes(JSON.parse(recipes!.value));
+          }
+        });
       } else {
         setLikedRecipes([]);
-        setViewedRecipes([]);
+        setCookie("likedRecipes", []);
+      }
+
+      if (hasCookie("viewedRecipes")) {
+        getCookie("viewedRecipes").then((recipes) => {
+          if (recipes) {
+            setViewedRecipes(JSON.parse(recipes!.value));
+          }
+        });
+      } else {
+        setViewedRecipes([...viewedRecipes, String(recipeData.id)]);
+        setCookie("viewedRecipes", [...viewedRecipes, String(recipeData.id)]);
       }
     }
-  }, [user]);
+
+    if (user) {
+      if (user?.likedRecipes) {
+        setLikedRecipes(user?.likedRecipes);
+      } else {
+        setLikedRecipes([]);
+      }
+
+      if (user?.viewedRecipes) {
+        setViewedRecipes(user?.viewedRecipes);
+      } else {
+        setViewedRecipes([...viewedRecipes, String(recipeData.id)]);
+      }
+    }
+  }, [user, recipeData]);
 
   useEffect(() => {
     if (user) {

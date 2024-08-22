@@ -8,28 +8,9 @@ const SearchPage = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [query, setQuery] = useState("");
-  const [recipes, setRecipes] = useState<any>({
-    offset: 0,
-    number: 2,
-    results: [
-      {
-        id: 716429,
-        title: "Pasta with Garlic, Scallions, Cauliflower & Breadcrumbs",
-        image: "https://img.spoonacular.com/recipes/716429-312x231.jpg",
-        imageType: "jpg",
-      },
-      {
-        id: 715538,
-        title:
-          "What to make for dinner tonight?? Bruschetta Style Pork & Pasta",
-        image: "https://img.spoonacular.com/recipes/715538-312x231.jpg",
-        imageType: "jpg",
-      },
-    ],
-    totalResults: 86,
-  });
+  const [recipes, setRecipes] = useState<any>();
 
-  /*  useEffect(() => {
+   useEffect(() => {
     setQuery(searchParams.get("query") || "");
 
     try {
@@ -39,12 +20,12 @@ const SearchPage = () => {
     } catch (error) {
       throw new Error("Error searching recipes");
     }
-  }, [searchParams]); */
+  }, [searchParams]);
 
   return (
-    <main className="w-full h-screen flex justify-center bg-[#FFECE3] bg-opacity-75">
+    <main className="w-full h-full min-h-screen flex justify-center bg-[#FFECE3] bg-opacity-75">
       <NavBar type="Search" />
-      <section className="flex flex-col gap-10 pt-20 w-[60%] h-screen">
+      <section className="flex flex-col gap-10 pt-20 w-[60%]">
         <div>
           <p className="font-sofiaPro font-normal">
             Recipes related to "<span className="font-bold">{query}</span>"

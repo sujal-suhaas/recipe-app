@@ -18,7 +18,7 @@ Welcome to the Recipe & Meal Planning App! This app helps you plan your meals, s
 - **Weekly Planner:** Plan your meals for the week with a drag-and-drop interface.
 
 
-### Usage
+## Usage
 - Sign Up: Create an account to start using the app.
 - Plan Meals: Use the meal planner to organize your weekly meals.
 - Explore & Share: Browse recipes and share the recipes.
@@ -38,19 +38,19 @@ Welcome to the Recipe & Meal Planning App! This app helps you plan your meals, s
 ### Deployment:
 - Vercel
 
-### Contributing
+## Contributing
 - Contributions are welcome! Please follow these steps:
 
-## #Fork the repository.
+### Fork the repository.
 - Create a new branch: git checkout -b feature-branch.
 - Make your changes and commit them: git commit -m 'Add some feature'.
 - Push to the branch: git push origin feature-branch.
 - Open a pull request.
 
-### License
+## License
 This project is licensed under the MIT License - see the LICENSE file for details.
 
-### Contact
+## Contact
 - For questions or suggestions, feel free to open an issue or contact me at sujalsuhaas2007@example.com.
 
-### Thank you for using the Recipe & Meal Planning App!
+## Thank you for using the Recipe & Meal Planning App!

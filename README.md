@@ -1,6 +1,6 @@
 # Recipe & Meal Planning App
 
-Welcome to the Recipe & Meal Planning App! This app helps you plan your meals, save your favorite recipes, and manage your dietary preferences all in one place. With a seamless user experience and robust authentication system, you can safely store your personal meal plans and access them anytime, anywhere.
+Welcome to the Recipe & Meal Planning App! This app helps you plan your meals, search recipes, and save your favorite recipes. With a seamless user experience and robust authentication system, you can safely store your personal meal plans and access them anytime, anywhere.
 
 ## Features
 
@@ -23,34 +23,34 @@ Welcome to the Recipe & Meal Planning App! This app helps you plan your meals, s
 - Plan Meals: Use the meal planner to organize your weekly meals.
 - Explore & Share: Browse recipes and share the recipes.
 
-###Frontend:
+### Frontend:
 - React.js
 - NEXT JS 13
 - Tailwind CSS
 
-###Backend:
+### Backend:
 - **Node.js**
 - **Appwrite**
 
-###Authentication:
+### Authentication:
 - **Appwrite**
 
-###Deployment:
+### Deployment:
 - Vercel
 
-###Contributing
+### Contributing
 - Contributions are welcome! Please follow these steps:
 
-###Fork the repository.
+## #Fork the repository.
 - Create a new branch: git checkout -b feature-branch.
 - Make your changes and commit them: git commit -m 'Add some feature'.
 - Push to the branch: git push origin feature-branch.
 - Open a pull request.
 
-###License
+### License
 This project is licensed under the MIT License - see the LICENSE file for details.
 
-###Contact
+### Contact
 - For questions or suggestions, feel free to open an issue or contact me at sujalsuhaas2007@example.com.
 
-###Thank you for using the Recipe & Meal Planning App!
+### Thank you for using the Recipe & Meal Planning App!

@@ -42,7 +42,7 @@ const RecipePage = () => {
       if (hasCookie("likedRecipes")) {
         getCookie("likedRecipes").then((recipes) => {
           if (recipes) {
-            setLikedRecipes(JSON.parse(recipes!.value));
+            setLikedRecipes(JSON.parse(recipes.value));
           }
         });
       } else {
@@ -53,7 +53,7 @@ const RecipePage = () => {
       if (hasCookie("viewedRecipes")) {
         getCookie("viewedRecipes").then((recipes) => {
           if (recipes) {
-            setViewedRecipes(JSON.parse(recipes!.value));
+            setViewedRecipes(JSON.parse(recipes.value));
           }
         });
       } else {

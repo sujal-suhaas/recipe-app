@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   DialogClose,
   DialogContent,
@@ -8,9 +8,22 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "./ui/button";
 
-const EditMeal = ({ id, data }: { id: number; data: any }) => {
+const EditMeal = ({
+  id,
+  data,
+  changeText,
+}: {
+  id: number;
+  data: any;
+  changeText: (id: number, value: string) => void;
+}) => {
   const [value, setValue] = useState(data.data);
   const [save, setSave] = useState(false);
+
+  useEffect(() => {
+    setValue(data.data);
+    setSave(false);
+  }, [data]);
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     e.preventDefault();
@@ -26,7 +39,11 @@ const EditMeal = ({ id, data }: { id: number; data: any }) => {
   };
 
   const handleSave = () => {
-    
+    changeText(id, value);
+  };
+
+  const handleDelete = () => {
+    changeText(id, "");
   };
 
   return (
@@ -50,6 +67,7 @@ const EditMeal = ({ id, data }: { id: number; data: any }) => {
           <Button
             type="submit"
             className="bg-red-500 hover:bg-red-700 font-sofiaPro"
+            onClick={handleDelete}
           >
             Delete meal
           </Button>
@@ -60,9 +78,7 @@ const EditMeal = ({ id, data }: { id: number; data: any }) => {
               disabled={!save}
               type="submit"
               className="bg-[#EE6C23] hover:bg-orange-700 font-sofiaPro w-full"
-              onClick={() => {
-                handleSave;
-              }}
+              onClick={handleSave}
             >
               Save
             </Button>

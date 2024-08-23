@@ -2,10 +2,18 @@
 
 import EditMeal from "@/components/EditMeal";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
-import React from "react";
+import { getLoggedInUser } from "@/lib/appwrite";
+import {
+  getCookie,
+  hasCookie,
+  setCookieMealPlanner,
+} from "@/lib/cookies";
+import { UserProps } from "@/lib/utils";
+import React, { useEffect, useState } from "react";
 
 const MealPlannerApp = () => {
-  const data = [
+  const [user, setUser] = useState<UserProps>();
+  const [data, setData] = useState([
     {
       id: 1,
       day: "Monday",
@@ -174,7 +182,40 @@ const MealPlannerApp = () => {
       meal: "Dinner",
       data: "",
     },
-  ];
+  ]);
+
+  useEffect(() => {
+    getLoggedInUser().then((user) => {
+      setUser(user);
+    });
+  }, []);
+
+  useEffect(() => {
+    if (!user) {
+      if (hasCookie("mealPlanner")) {
+        getCookie("data").then((data) => {
+          if (data) {
+            setData(JSON.parse(data.value));
+          }
+        });
+      }
+
+      if (!hasCookie("mealPlanner")) {
+        setCookieMealPlanner("mealPlanner", data);
+      }
+    }
+  }, [user]);
+
+  const updateData = (id: number, value: string) => {
+    const newData = data.map((item) => {
+      if (item.id === id) {
+        return { ...item, data: value };
+      }
+      return item;
+    });
+
+    setData(newData);
+  };
 
   return (
     <section className="bg-[#FFECE3] bg-opacity-75 w-full h-full min-h-screen flex flex-col items-center pb-5">
@@ -208,7 +249,12 @@ const MealPlannerApp = () => {
                           {item.data}
                         </td>
                       </DialogTrigger>
-                      <EditMeal key={item.id} id={item.id} data={item} />
+                      <EditMeal
+                        key={item.id}
+                        id={item.id}
+                        data={item}
+                        changeText={updateData}
+                      />
                     </Dialog>
                   ))}
               </tr>
@@ -226,7 +272,12 @@ const MealPlannerApp = () => {
                           {item.data}
                         </td>
                       </DialogTrigger>
-                      <EditMeal key={item.id} id={item.id} data={item} />
+                      <EditMeal
+                        key={item.id}
+                        id={item.id}
+                        data={item}
+                        changeText={updateData}
+                      />
                     </Dialog>
                   ))}
               </tr>
@@ -246,7 +297,12 @@ const MealPlannerApp = () => {
                           {item.data}
                         </td>
                       </DialogTrigger>
-                      <EditMeal key={item.id} id={item.id} data={item} />
+                      <EditMeal
+                        key={item.id}
+                        id={item.id}
+                        data={item}
+                        changeText={updateData}
+                      />
                     </Dialog>
                   ))}
               </tr>
@@ -266,7 +322,12 @@ const MealPlannerApp = () => {
                           {item.data}
                         </td>
                       </DialogTrigger>
-                      <EditMeal key={item.id} id={item.id} data={item} />
+                      <EditMeal
+                        key={item.id}
+                        id={item.id}
+                        data={item}
+                        changeText={updateData}
+                      />
                     </Dialog>
                   ))}
               </tr>
@@ -284,7 +345,12 @@ const MealPlannerApp = () => {
                           {item.data}
                         </td>
                       </DialogTrigger>
-                      <EditMeal key={item.id} id={item.id} data={item} />
+                      <EditMeal
+                        key={item.id}
+                        id={item.id}
+                        data={item}
+                        changeText={updateData}
+                      />
                     </Dialog>
                   ))}
               </tr>
@@ -304,7 +370,12 @@ const MealPlannerApp = () => {
                           {item.data}
                         </td>
                       </DialogTrigger>
-                      <EditMeal key={item.id} id={item.id} data={item} />
+                      <EditMeal
+                        key={item.id}
+                        id={item.id}
+                        data={item}
+                        changeText={updateData}
+                      />
                     </Dialog>
                   ))}
               </tr>
@@ -322,7 +393,12 @@ const MealPlannerApp = () => {
                           {item.data}
                         </td>
                       </DialogTrigger>
-                      <EditMeal key={item.id} id={item.id} data={item} />
+                      <EditMeal
+                        key={item.id}
+                        id={item.id}
+                        data={item}
+                        changeText={updateData}
+                      />
                     </Dialog>
                   ))}
               </tr>

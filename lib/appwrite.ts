@@ -70,12 +70,14 @@ export const updateUserInfo = async ({
   lastName,
   likedRecipes,
   viewedRecipes,
+  mealPlanner,
 }: {
-  documentId?: string
+  documentId?: string;
   firstName?: string;
   lastName?: string;
   likedRecipes?: string[];
   viewedRecipes?: string[];
+  mealPlanner?: string[];
 }) => {
   try {
     const { database } = await createAdminClient();
@@ -88,6 +90,7 @@ export const updateUserInfo = async ({
         lastName,
         likedRecipes,
         viewedRecipes,
+        mealPlanner,
       }
     );
     return parseStringify(user);
@@ -137,19 +140,15 @@ export const signUp = async (
     [firstName, lastName].join(" ")
   );
 
-  const newUser = await database.createDocument(
-    DATABASE_ID!,
-    COLLECTION_ID!,
-    ID.unique(),
-    {
-      userId: createNewUser.$id,
-      email: email,
-      firstName: firstName,
-      lastName: lastName,
-      likedRecipes: [],
-      
-    }
-  );
+  await database.createDocument(DATABASE_ID!, COLLECTION_ID!, ID.unique(), {
+    userId: createNewUser.$id,
+    email: email,
+    firstName: firstName,
+    lastName: lastName,
+    likedRecipes: [],
+    viewedRecipes: [],
+    mealPlanner: [],
+  });
 
   const session = await account.createEmailPasswordSession(email, password);
 
@@ -166,22 +165,3 @@ export const logout = async () => {
   cookies().delete("appwrite-session");
   await account.deleteSession("current");
 };
-
-export const saveLikedRecipes = async ({
-  documentId,
-  likedRecipes,
-}: {
-  documentId?: string
-  likedRecipes?: string[]
-}) => {
-  const { database } = await createAdminClient();
-  const user = await database.updateDocument(
-    DATABASE_ID!,
-    COLLECTION_ID!,
-    documentId!,
-    {
-      likedRecipes,
-    }
-  );
-  return parseStringify(user);
-}

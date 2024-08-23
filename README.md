@@ -47,9 +47,6 @@ Welcome to my Recipe & Meal Planning App! This app helps you plan your meals, se
 - Push to the branch: git push origin feature-branch.
 - Open a pull request.
 
-## License
-This project is licensed under the MIT License - see the LICENSE file for details.
-
 ## Contact
 - For questions or suggestions, feel free to open an issue or contact me at sujalsuhaas2007@example.com.
 

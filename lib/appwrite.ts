@@ -2,6 +2,7 @@
 
 import { Client, Account, ID, Databases, Query, Users } from "node-appwrite";
 import { cookies } from "next/headers";
+import { parseStringify } from "./utils";
 
 const {
   APPWRITE_URL: APPWRITE_URL,
@@ -50,8 +51,6 @@ export async function createAdminClient() {
   };
 }
 
-const parseStringify = (value: any) => JSON.parse(JSON.stringify(value));
-
 export const getUserInfo = async ({ userId }: { userId: string }) => {
   try {
     const { database } = await createAdminClient();
@@ -77,7 +76,7 @@ export const updateUserInfo = async ({
   lastName?: string;
   likedRecipes?: string[];
   viewedRecipes?: string[];
-  mealPlanner?: string[];
+  mealPlanner?: string;
 }) => {
   try {
     const { database } = await createAdminClient();
@@ -147,7 +146,7 @@ export const signUp = async (
     lastName: lastName,
     likedRecipes: [],
     viewedRecipes: [],
-    mealPlanner: [],
+    mealPlanner: "",
   });
 
   const session = await account.createEmailPasswordSession(email, password);

@@ -1,6 +1,6 @@
 # Recipe & Meal Planning App
 
-Welcome to the Recipe & Meal Planning App! This app helps you plan your meals, search recipes, and save your favorite recipes. With a seamless user experience and robust authentication system, you can safely store your personal meal plans and access them anytime, anywhere.
+Welcome to my Recipe & Meal Planning App! This app helps you plan your meals, search recipes, and save your favorite recipes. With a seamless user experience and robust authentication system, you can safely store your personal meal plans and access them anytime, anywhere.
 
 ## Features
 
@@ -53,4 +53,4 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 ## Contact
 - For questions or suggestions, feel free to open an issue or contact me at sujalsuhaas2007@example.com.
 
-## Thank you for using the Recipe & Meal Planning App!
+## Thank you for using My Recipe & Meal Planning App!

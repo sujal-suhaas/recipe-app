@@ -20,7 +20,7 @@ const SearchPage = () => {
     } catch (error) {
       throw new Error("Error searching recipes");
     }
-  }, [searchParams]);
+  }, [searchParams, query]);
 
   return (
     <main className="w-full h-full min-h-screen flex justify-center bg-[#FFECE3] bg-opacity-75">

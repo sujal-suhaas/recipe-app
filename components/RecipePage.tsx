@@ -75,7 +75,7 @@ const RecipePage = () => {
         setViewedRecipes([...viewedRecipes, String(recipeData.id)]);
       }
     }
-  }, [user, recipeData]);
+  }, [user, recipeData, viewedRecipes]);
 
   useEffect(() => {
     if (user) {

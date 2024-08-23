@@ -204,7 +204,7 @@ const MealPlannerApp = () => {
         setCookieMealPlanner("mealPlanner", data);
       }
     }
-  }, [user]);
+  }, [user, data]);
 
   const updateData = (id: number, value: string) => {
     const newData = data.map((item) => {
@@ -240,7 +240,7 @@ const MealPlannerApp = () => {
                 {data
                   .filter((item) => item.id <= 4)
                   .map((item) => (
-                    <Dialog>
+                    <Dialog key={item.id}>
                       <DialogTrigger asChild>
                         <td
                           key={item.id}
@@ -263,7 +263,7 @@ const MealPlannerApp = () => {
                 {data
                   .filter((item) => item.id >= 5 && item.id <= 8)
                   .map((item) => (
-                    <Dialog>
+                    <Dialog key={item.id}>
                       <DialogTrigger asChild>
                         <td
                           key={item.id}
@@ -288,7 +288,7 @@ const MealPlannerApp = () => {
                 {data
                   .filter((item) => item.id >= 9 && item.id <= 12)
                   .map((item) => (
-                    <Dialog>
+                    <Dialog key={item.id}>
                       <DialogTrigger asChild>
                         <td
                           key={item.id}
@@ -313,7 +313,7 @@ const MealPlannerApp = () => {
                 {data
                   .filter((item) => item.id >= 13 && item.id <= 16)
                   .map((item) => (
-                    <Dialog>
+                    <Dialog key={item.id}>
                       <DialogTrigger asChild>
                         <td
                           key={item.id}
@@ -336,7 +336,7 @@ const MealPlannerApp = () => {
                 {data
                   .filter((item) => item.id >= 17 && item.id <= 20)
                   .map((item) => (
-                    <Dialog>
+                    <Dialog key={item.id}>
                       <DialogTrigger asChild>
                         <td
                           key={item.id}
@@ -361,7 +361,7 @@ const MealPlannerApp = () => {
                 {data
                   .filter((item) => item.id >= 21 && item.id <= 24)
                   .map((item) => (
-                    <Dialog>
+                    <Dialog key={item.id}>
                       <DialogTrigger asChild>
                         <td
                           key={item.id}
@@ -384,7 +384,7 @@ const MealPlannerApp = () => {
                 {data
                   .filter((item) => item.id >= 25 && item.id <= 28)
                   .map((item) => (
-                    <Dialog>
+                    <Dialog key={item.id}>
                       <DialogTrigger asChild>
                         <td
                           key={item.id}

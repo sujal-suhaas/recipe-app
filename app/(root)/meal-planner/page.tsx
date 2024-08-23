@@ -10,7 +10,7 @@ const MealPlannerApp = () => {
       id: 1,
       day: "Monday",
       meal: "Breakfast",
-      data: "",
+      data: "maggi",
     },
     {
       id: 2,

@@ -15,7 +15,7 @@ Welcome to my Recipe & Meal Planning App! This app helps you plan your meals, se
 - **Recipe Sharing:** Share your recipes with friends or on social media.
 
 ### Meal Planning
-- **Weekly Planner:** Plan your meals for the week with a drag-and-drop interface.
+- **Weekly Planner:** Plan your meals for the week with a table interface.
 
 
 ## Usage
@@ -27,16 +27,19 @@ Welcome to my Recipe & Meal Planning App! This app helps you plan your meals, se
 - React.js
 - NEXT JS 13
 - Tailwind CSS
+- Typescript
+- shadcn UI
+- Lucide React
 
 ### Backend:
-- **Node.js**
-- **Appwrite**
+- Node.js
+- Appwrite
 
 ### Authentication:
-- **Appwrite**
+ - Appwrite
 
 ### Deployment:
-- Vercel
+- Vercel   
 
 ## Contributing
 - Contributions are welcome! Please follow these steps:

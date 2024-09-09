@@ -76,7 +76,7 @@ Contributing
 
 [](https://github.com/sujal-suhaas/recipe-app/blob/main/README.md#contributing)
 
--   Contributions are welcome! Please follow these steps:
+-   Contributions are welcome!
 
 ### Fork the repository.
 

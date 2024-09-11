@@ -5,6 +5,8 @@ Recipe & Meal Planning App
 
 Welcome to my Recipe & Meal Planning App! This app helps you plan your meals, search recipes, and save your favorite recipes. With a seamless user experience and robust authentication system, you can safely store your personal meal plans and access them anytime, anywhere.
 
+Access the live website - https://sujal-recipe-app.vercel.app/recipe
+
 Features
 --------
 

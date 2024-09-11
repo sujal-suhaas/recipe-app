@@ -26,8 +26,6 @@ Features
 
 -   Weekly Planner: Plan your meals for the week with a table interface.
 
-Usage
-
 ### User Authentication
 
 [](https://github.com/sujal-suhaas/recipe-app/blob/main/README.md#user-authentication)
@@ -35,6 +33,8 @@ Usage
 -   Sign Up: Create a new account with your email and a secure password.
 -   Log In: Access your account using your registered email and password.
 -   Account Management: Update your profile information, including email, password, and dietary preferences.
+
+Usage
 -----
 
 [](https://github.com/sujal-suhaas/recipe-app/blob/main/README.md#usage)
